@@ -167,3 +167,8 @@ src/tui.rs       terminal UI
 sidecars/whatsapp/  Baileys linked-device client (Node)
 skills/          vendored skills (see skills/README.md)
 ```
+
+## License
+
+MIT, see [LICENSE](LICENSE). The vendored skills in `skills/` keep their own MIT license
+([skills/LICENSE.replica-skill](skills/LICENSE.replica-skill)).

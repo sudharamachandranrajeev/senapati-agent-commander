@@ -3,6 +3,7 @@ name = "senapati"
 version = "0.1.0"
 edition = "2021"
 description = "Senapati (Agent-Commander): a Windows terminal for driving coding agents, local models, delegation plans and chat alerts"
+license = "MIT"
 publish = false
 
 [dependencies]

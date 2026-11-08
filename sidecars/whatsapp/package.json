@@ -5,7 +5,7 @@
   "description": "Linked-device WhatsApp client for Senapati alerts (Baileys). Unofficial: may get the number banned.",
   "type": "module",
   "main": "index.mjs",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "engines": {
     "node": ">=20"
   },
