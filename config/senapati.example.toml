@@ -1,0 +1,104 @@
+# Senapati (Agent-Commander) configuration.
+# Lives at <home>\senapati.toml. Home is --home, else %SENAPATI_HOME%, else %LOCALAPPDATA%\senapati.
+# Secrets (bot tokens, webhook URLs, API keys) are NOT stored here.
+# Set them with `senapati secret set <name>`; they go to Windows Credential Manager.
+
+default_agent = "claude"
+
+# Terse-output layer applied to every provider: off | lite | full | ultra | auto.
+# auto: chat and plan steps use "full", planner and step handoffs use "ultra".
+caveman = "auto"
+
+# Where SKILL.md folders are discovered. Tokens: ~ (user profile), {home}, {cwd} (session folder).
+skill_dirs = ["{home}/skills", "{cwd}/.claude/skills", "{cwd}/.agents/skills", "~/.claude/skills"]
+
+# One running agent per provider unless raised here (or per plan with /plan --per-provider N).
+[providers.anthropic]
+max_concurrent = 1
+[providers.openai]
+max_concurrent = 1
+[providers.google]
+max_concurrent = 1
+[providers.local]
+max_concurrent = 1
+
+[[agents]]
+name = "claude"
+kind = "claude-cli"
+provider = "anthropic"
+command = "claude"
+# model = "sonnet"
+permission_mode = "acceptEdits"   # default | acceptEdits | plan | bypassPermissions
+mcp = ["rea", "caveman"]
+fallback = ["codex"]
+
+[[agents]]
+name = "codex"
+kind = "codex-cli"
+provider = "openai"
+command = "codex"
+sandbox = "workspace-write"       # read-only | workspace-write | danger-full-access
+mcp = ["rea", "caveman"]
+fallback = ["claude"]
+# Native Windows codex currently forces workspace-write back to read-only (openai/codex#34958).
+# Remove this note once `codex exec -s workspace-write` can create files on this machine.
+notes = "read-only on this Windows machine: give it review, analysis and planning, not file edits"
+
+[[agents]]
+name = "qwen-coder"
+kind = "openai-compat"
+provider = "local"
+base_url = "http://127.0.0.1:1234/v1"   # LM Studio. Ollama: http://127.0.0.1:11434/v1
+model = "qwen2.5-coder-7b-instruct"
+mcp = ["caveman"]
+# api_key_secret = "openrouter_api_key"  # only for remote OpenAI-compatible endpoints
+
+[[agents]]
+name = "deepseek-r1"
+kind = "openai-compat"
+provider = "local"
+base_url = "http://127.0.0.1:1234/v1"
+model = "deepseek/deepseek-r1-0528-qwen3-8b"
+
+# Any other agent CLI that takes a prompt on stdin and prints plain text.
+[[agents]]
+name = "gemini"
+kind = "cli"
+provider = "google"
+command = "gemini"
+args = ["-p", " "]
+enabled = false
+
+[mcp.rea]
+command = "npx"
+args = ["-y", "rea-agents@6.7.0", "mcp"]
+# REA has 200+ tools. Local models only get the ones listed here (empty = all).
+tools = ["inspect_artifact", "binary_overview", "list_strings", "search_strings", "inspect_pe_resources", "inspect_signature"]
+
+[mcp.caveman]
+command = "~/.caveman/bin/caveman-mcp.exe"
+
+[planner]
+agent = "claude"
+
+[notify]
+# plan_ready | step_done | step_failed | plan_done | turn_done | limit_hit
+events = ["plan_ready", "step_failed", "plan_done", "limit_hit"]
+# Let allowed chats send commands (/status, /approve, /ask ...). Agents can edit files, so keep off unless needed.
+remote_control = false
+
+[notify.telegram]
+enabled = false
+chat_ids = []            # numeric chat ids allowed to receive alerts and send commands
+# secret: telegram_bot_token
+
+[notify.discord]
+enabled = false
+# secret: discord_webhook_url
+
+[notify.whatsapp]
+enabled = false
+to = []                  # your own number(s), digits with country code, e.g. "447700900123"
+node = "node"
+# sidecar folder; default is <exe folder>\sidecars\whatsapp, then .\sidecars\whatsapp
+# sidecar_dir = "C:/AI/Claude/senapati/sidecars/whatsapp"

@@ -1,0 +1,11 @@
+/target/
+/.tools/
+/.dev-home/
+node_modules/
+# WhatsApp session keys and any local data must never be committed
+whatsapp-auth/
+*.db
+*.db-wal
+*.db-shm
+.env
+*.secret

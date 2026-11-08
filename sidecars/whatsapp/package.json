@@ -1,0 +1,17 @@
+{
+  "name": "senapati-whatsapp-sidecar",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Linked-device WhatsApp client for Senapati alerts (Baileys). Unofficial: may get the number banned.",
+  "type": "module",
+  "main": "index.mjs",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "baileys": "7.0.0-rc14",
+    "pino": "9.14.0",
+    "qrcode-terminal": "0.12.0"
+  }
+}
