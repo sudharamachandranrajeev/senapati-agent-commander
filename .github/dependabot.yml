@@ -1,0 +1,19 @@
+# Weekly dependency updates, grouped so each ecosystem opens at most one
+# routine pull request. Security fixes arrive separately, as soon as an
+# advisory is published (repo setting: Dependabot security updates).
+version: 2
+updates:
+  - package-ecosystem: cargo
+    directory: /
+    schedule: { interval: weekly, day: monday }
+    open-pull-requests-limit: 5
+    groups:
+      cargo:
+        update-types: [minor, patch]
+  - package-ecosystem: npm
+    directory: /sidecars/whatsapp
+    schedule: { interval: weekly, day: monday }
+    open-pull-requests-limit: 5
+    groups:
+      npm-sidecars-whatsapp:
+        update-types: [minor, patch]
