@@ -24,7 +24,7 @@ serde_json = "1"
 tokio = { version = "1", features = ["full"] }
 toml = "0.8"
 uuid = { version = "1", features = ["v4"] }
-which = "6"
+which = "8"
 
 [dev-dependencies]
 tempfile = "3"
